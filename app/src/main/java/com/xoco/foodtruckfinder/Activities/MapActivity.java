@@ -1,4 +1,4 @@
-package com.xoco.foodtruckfinder;
+package com.xoco.foodtruckfinder.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.xoco.foodtruckfinder.utils.Foodtruck;
+import com.xoco.foodtruckfinder.Models.Foodtruck;
+import com.xoco.foodtruckfinder.R;
 
 import java.util.ArrayList;
 

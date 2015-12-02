@@ -1,4 +1,4 @@
-package com.xoco.foodtruckfinder.utils;
+package com.xoco.foodtruckfinder.Models;
 
 /**
  * Created by chino on 11/26/15.

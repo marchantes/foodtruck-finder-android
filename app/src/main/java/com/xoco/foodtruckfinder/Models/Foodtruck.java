@@ -1,60 +1,34 @@
-package com.xoco.foodtruckfinder.Models;
+package com.xoco.foodtruckfinder.models;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by chino on 11/26/15.
+ * Created by uliseschino on 11/26/15.
  */
-public class Foodtruck {
-    private String mName;
-    private String mFoodType;
-    private Integer mRating;
-    private Double mLat;
-    private Double mLng;
+public class FoodTruck {
 
-    public Foodtruck(String mName, String mFoodType, Double mLat, Integer mRating, Double mLng) {
-        this.mName = mName;
-        this.mFoodType = mFoodType;
-        this.mLat = mLat;
-        this.mRating = mRating;
-        this.mLng = mLng;
+    public Integer id;
+
+    public String name;
+
+    public Integer rating;
+
+    @SerializedName("food_type")
+    public String foodType;
+
+    @SerializedName("location_object")
+    public Location location;
+
+    public class Location {
+
+        public Double lat;
+
+        @SerializedName("long")
+        public Double lng;
+
+        public String toString(){
+            return "(" + this.lat + "," + this.lng + ")";
+        }
     }
 
-    public String getmName() {
-        return mName;
-    }
-
-    public void setmName(String mName) {
-        this.mName = mName;
-    }
-
-    public String getmFoodType() {
-        return mFoodType;
-    }
-
-    public void setmFoodType(String mFoodType) {
-        this.mFoodType = mFoodType;
-    }
-
-    public Integer getmRating() {
-        return mRating;
-    }
-
-    public void setmRating(Integer mRating) {
-        this.mRating = mRating;
-    }
-
-    public Double getmLat() {
-        return mLat;
-    }
-
-    public void setmLat(Double mLat) {
-        this.mLat = mLat;
-    }
-
-    public Double getmLng() {
-        return mLng;
-    }
-
-    public void setmLng(Double mLng) {
-        this.mLng = mLng;
-    }
 }

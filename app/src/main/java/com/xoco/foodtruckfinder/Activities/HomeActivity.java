@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.home_button_go_to_map:
 
-                Intent toMapIntent = new Intent(this, MapActivity.class);
+                Intent toMapIntent = new Intent(this, MainActivity.class);
                 startActivity(toMapIntent);
 
                 break;

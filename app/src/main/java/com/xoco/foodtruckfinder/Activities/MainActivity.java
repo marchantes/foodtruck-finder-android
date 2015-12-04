@@ -2,8 +2,13 @@ package com.xoco.foodtruckfinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, NavigationView.OnNavigationItemSelectedListener {
 
 
     //Saves food trucks from server
@@ -35,18 +40,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private HashMap<String, FoodTruck> mHashMap = new HashMap<String, FoodTruck>();
 
     //To save current object in case this word is used inside nested functions or callbacks
-    private MapActivity self = this;
+    private MainActivity self = this;
+
+    private DrawerLayout drawerLayout;
+
+    private View content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_main);
 
         //Get food trucks list
         ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
             @Override
             public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
-                Log.d("Custom:MapActivity", "Request was successful");
+                Log.d("Custom:MainActivity", "Request was successful");
                 mFoodTrucks = foodTrucks;
 
                 //Get map support and call in async way
@@ -57,10 +66,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("Custom:MapActivity", "Retrofit Error");
-                Log.d("Custom:MapActivity", error.toString());
+                Log.d("Custom:MainActivity", "Retrofit Error");
+                Log.d("Custom:MainActivity", error.toString());
             }
         });
+
+
+        //Navigation Drawer
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        content = findViewById(R.id.content);
+
+        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
+        view.setNavigationItemSelectedListener(self);
 
     }
 
@@ -81,8 +98,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //Add food truck to map and saves in map table
         for (FoodTruck foodTruck : mFoodTrucks) {
 
-            Log.d("Custom:MapActivity", foodTruck.name);
-            Log.d("Custom:MapActivity", foodTruck.location.toString());
+            Log.d("Custom:MainActivity", foodTruck.name);
+            Log.d("Custom:MainActivity", foodTruck.location.toString());
 
             currentMarkerId = googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(foodTruck.location.lat, foodTruck.location.lng))
@@ -91,8 +108,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.fast_food_24))
             ).getId();
 
-            Log.d("Custom:MapActivity",currentMarkerId);
-            Log.d("Custom:MapActivity",foodTruck.name);
+            Log.d("Custom:MainActivity",currentMarkerId);
+            Log.d("Custom:MainActivity",foodTruck.name);
 
             mHashMap.put(currentMarkerId, foodTruck);
 
@@ -118,6 +135,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         startActivity(toDetailsIntent);
 
+    }
+
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+        return true;
     }
 
 }

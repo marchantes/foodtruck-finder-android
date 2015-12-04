@@ -1,4 +1,4 @@
-package com.xoco.foodtruckfinder.Activities;
+package com.xoco.foodtruckfinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

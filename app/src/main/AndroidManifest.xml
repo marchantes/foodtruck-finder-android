@@ -3,6 +3,7 @@
     package="com.xoco.foodtruckfinder">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +16,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activities.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MapActivity"></activity>
-        <activity android:name=".Activities.HomeActivity"></activity>
+        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.FoodtruckDetailsActivity"></activity>
     </application>
 
 </manifest>

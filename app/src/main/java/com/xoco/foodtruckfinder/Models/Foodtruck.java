@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class FoodTruck {
 
-    public Integer id;
+    public int id;
 
     public String name;
 
-    public Integer rating;
+    public float rating;
 
     @SerializedName("food_type")
     public String foodType;
@@ -30,5 +30,8 @@ public class FoodTruck {
             return "(" + this.lat + "," + this.lng + ")";
         }
     }
+
+
+
 
 }

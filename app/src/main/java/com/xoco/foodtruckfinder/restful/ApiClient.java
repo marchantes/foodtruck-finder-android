@@ -9,7 +9,7 @@ import retrofit.RestAdapter;
  */
 public class ApiClient {
 
-    private static final String BASE_URL = Constants.BASE_URL;
+    private static final String BASE_URL = Constants.API_BASE_URL;
 
     private static final RestAdapter REST_ADAPTER = new RestAdapter.Builder()
             .setEndpoint(BASE_URL)

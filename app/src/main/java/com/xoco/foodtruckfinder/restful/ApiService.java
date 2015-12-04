@@ -13,7 +13,7 @@ import retrofit.http.GET;
  */
 public interface ApiService {
 
-    @GET(Constants.ALL_FOODTRUCKS)
+    @GET(Constants.API_ALL_FOODTRUCKS)
     void getAllFoodTrucks(Callback<ArrayList<FoodTruck>> response);
 
 }

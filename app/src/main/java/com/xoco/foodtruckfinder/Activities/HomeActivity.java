@@ -36,18 +36,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
 
             case R.id.home_button_go_to_map:
-
                 Intent toMapIntent = new Intent(this, MainActivity.class);
                 startActivity(toMapIntent);
-
                 break;
-
             //TODO: Implement logic to sign up
-
             case R.id.home_button_sign_up:
-
                 Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
-
                 break;
 
         }

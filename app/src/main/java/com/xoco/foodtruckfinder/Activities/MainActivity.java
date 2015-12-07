@@ -3,12 +3,14 @@ package com.xoco.foodtruckfinder.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xoco.foodtruckfinder.R;
+import com.xoco.foodtruckfinder.fragments.FavoritesFragment;
+import com.xoco.foodtruckfinder.fragments.MapFragment;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 import com.xoco.foodtruckfinder.utils.Constants;
@@ -33,18 +37,23 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, NavigationView.OnNavigationItemSelectedListener {
 
 
-    //Saves food trucks from server
+    //Saves food trucks info from server
     private ArrayList<FoodTruck> mFoodTrucks = new ArrayList<FoodTruck>();
 
-    //Maps Food trucks with Map Pins
+    //Maps FoodTruck Object with Google Map Pins by Marker ID, a String
     private HashMap<String, FoodTruck> mHashMap = new HashMap<String, FoodTruck>();
 
-    //To save current object in case this word is used inside nested functions or callbacks
+    //To save current object in case "this" reserved word is used inside nested functions or callbacks
     private MainActivity self = this;
 
+    //For the menu
     private DrawerLayout drawerLayout;
 
-    private View content;
+//    private View mainContent;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+
+    //For the content
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +80,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        // Set a Toolbar to replace the ActionBar.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         //Navigation Drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        content = findViewById(R.id.content);
+//        mainContent = findViewById(R.id.main_content);
 
-        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        view.setNavigationItemSelectedListener(self);
+        // Find our drawer view and set listener
+        navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        navigationView.setNavigationItemSelectedListener(self);
+
 
     }
 
@@ -119,29 +134,61 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    //Handles info window clicking
     public void onInfoWindowClick(Marker marker){
 
         FoodTruck selectedFoodTruck = mHashMap.get(marker.getId());
-
         Intent toDetailsIntent = new Intent(this, FoodtruckDetailsActivity.class);
         Bundle foodTruckInfo = new Bundle();
 
+        //Inserts info in Bundle object before sending
         foodTruckInfo.putInt(Constants.ID, selectedFoodTruck.id);
         foodTruckInfo.putString(Constants.NAME, selectedFoodTruck.name);
         foodTruckInfo.putString(Constants.TYPE, selectedFoodTruck.foodType);
         foodTruckInfo.putFloat(Constants.RATING, selectedFoodTruck.rating);
-
         toDetailsIntent.putExtra(Constants.FOOD_TRUCK_INFO, foodTruckInfo);
 
+        //Go to a more detailed view of the food truck
         startActivity(toDetailsIntent);
 
     }
 
+    //TODO: Add settings functionality
+
+    //Handles Drawer Menu navigation
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+
+        Fragment fragment = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        switch (menuItem.getItemId()) {
+            case R.id.item_menu_map:
+                Toast.makeText(this, "Map pressed", Toast.LENGTH_SHORT).show();
+                fragment = new MapFragment();
+                break;
+            case R.id.item_menu_favs:
+                Toast.makeText(this, "Favorites pressed", Toast.LENGTH_SHORT).show();
+                fragment = new FavoritesFragment();
+                break;
+            case R.id.item_menu_settings:
+                Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
+              fragment = new FavoritesFragment();
+//                break;
+        }
+
+
+        fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
+
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
         return true;
     }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
 
 }

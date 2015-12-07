@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.fragments.FavoritesFragment;
-import com.xoco.foodtruckfinder.fragments.MapFragment;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 import com.xoco.foodtruckfinder.utils.Constants;
@@ -49,45 +48,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //For the menu
     private DrawerLayout drawerLayout;
 
-//    private View mainContent;
+
     private NavigationView navigationView;
     private Toolbar toolbar;
 
-    //For the content
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Get food trucks list
-        ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
-            @Override
-            public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
-                Log.d("Custom:MainActivity", "Request was successful");
-                mFoodTrucks = foodTrucks;
-
-                //Get map support and call in async way
-                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                mapFragment.getMapAsync(self);
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("Custom:MainActivity", "Retrofit Error");
-                Log.d("Custom:MainActivity", error.toString());
-            }
-        });
+        //Put map in the screen
+        displayMapFragment();
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         //Navigation Drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mainContent = findViewById(R.id.main_content);
 
         // Find our drawer view and set listener
         navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
@@ -96,8 +75,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void onMapReady(GoogleMap googleMap) {
+    private void displayMapFragment() {
 
+        //Pulls locations from server
+        getFoodTrucksLocation();
+
+        //Create a new SupportMapFragment for compatibility
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+
+        //Set up the onMapReady callback
+        mapFragment.getMapAsync(self);
+
+        //Replace fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_content_fragment, mapFragment).commit();
+    }
+
+    public void onMapReady(GoogleMap googleMap) {
 
         String currentMarkerId;
 
@@ -134,6 +128,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    //Get food trucks list and save info in ArrayList<FoodTruck>
+    private void getFoodTrucksLocation() {
+        ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
+            @Override
+            public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
+                Log.d("Custom:MainActivity", "Request was successful");
+                mFoodTrucks = foodTrucks;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Custom:MainActivity", "Retrofit Error");
+                Log.d("Custom:MainActivity", error.toString());
+            }
+        });
+    }
+
     //Handles info window clicking
     public void onInfoWindowClick(Marker marker){
 
@@ -141,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent toDetailsIntent = new Intent(this, FoodtruckDetailsActivity.class);
         Bundle foodTruckInfo = new Bundle();
 
-        //Inserts info in Bundle object before sending
+        //Inserts info in Bundle object before sending ID is very important for future requests
         foodTruckInfo.putInt(Constants.ID, selectedFoodTruck.id);
         foodTruckInfo.putString(Constants.NAME, selectedFoodTruck.name);
         foodTruckInfo.putString(Constants.TYPE, selectedFoodTruck.foodType);
@@ -153,31 +164,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    //TODO: Add settings functionality
-
     //Handles Drawer Menu navigation
     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
+
         switch (menuItem.getItemId()) {
             case R.id.item_menu_map:
                 Toast.makeText(this, "Map pressed", Toast.LENGTH_SHORT).show();
-                fragment = new MapFragment();
+                displayMapFragment();
                 break;
             case R.id.item_menu_favs:
                 Toast.makeText(this, "Favorites pressed", Toast.LENGTH_SHORT).show();
                 fragment = new FavoritesFragment();
+                fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
                 break;
             case R.id.item_menu_settings:
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
-              fragment = new FavoritesFragment();
-//                break;
+                //TODO Finish settings functionality
+                break;
         }
-
-
-        fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
 
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();

@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.fragments.FavoritesFragment;
-import com.xoco.foodtruckfinder.fragments.MapFragment;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 import com.xoco.foodtruckfinder.utils.Constants;
@@ -49,36 +48,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //For the menu
     private DrawerLayout drawerLayout;
 
-//    private View mainContent;
+
     private NavigationView navigationView;
     private Toolbar toolbar;
 
-    //For the content
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Get food trucks list
-        ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
-            @Override
-            public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
-                Log.d("Custom:MainActivity", "Request was successful");
-                mFoodTrucks = foodTrucks;
-
-                //Get map support and call in async way
-                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                mapFragment.getMapAsync(self);
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("Custom:MainActivity", "Retrofit Error");
-                Log.d("Custom:MainActivity", error.toString());
-            }
-        });
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -87,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Navigation Drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mainContent = findViewById(R.id.main_content);
 
         // Find our drawer view and set listener
         navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
@@ -97,6 +74,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void onMapReady(GoogleMap googleMap) {
+
+
+        //Get food trucks list
+        ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
+            @Override
+            public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
+                Log.d("Custom:MainActivity", "Request was successful");
+                mFoodTrucks = foodTrucks;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Custom:MainActivity", "Retrofit Error");
+                Log.d("Custom:MainActivity", error.toString());
+            }
+        });
 
 
         String currentMarkerId;
@@ -153,31 +146,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    //TODO: Add settings functionality
-
     //Handles Drawer Menu navigation
     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
+        //For the map
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        mapFragment.getMapAsync(self);
+
         switch (menuItem.getItemId()) {
             case R.id.item_menu_map:
                 Toast.makeText(this, "Map pressed", Toast.LENGTH_SHORT).show();
-                fragment = new MapFragment();
+                fragmentManager.beginTransaction().replace(R.id.main_content_fragment, mapFragment).commit();
                 break;
             case R.id.item_menu_favs:
+                //Todo finish favs functionality
                 Toast.makeText(this, "Favorites pressed", Toast.LENGTH_SHORT).show();
                 fragment = new FavoritesFragment();
+                fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
                 break;
             case R.id.item_menu_settings:
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
-              fragment = new FavoritesFragment();
-//                break;
+                //TODO Finish settings functionality
+                break;
         }
-
-
-        fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
 
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();

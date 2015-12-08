@@ -5,26 +5,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.xoco.foodtruckfinder.R;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    private Button mGoToMap;
-    private Button mSignUp;
+    private Button mToMapBtn;
+    private Button mLoginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mSignUp = (Button)findViewById(R.id.home_button_sign_up);
-        mSignUp.setOnClickListener(this);
+        mLoginBtn = (Button)findViewById(R.id.home_login_btn);
+        mLoginBtn.setOnClickListener(this);
 
-        mGoToMap = (Button)findViewById(R.id.home_button_go_to_map);
-        mGoToMap.setOnClickListener(this);
+        mToMapBtn = (Button)findViewById(R.id.home_to_map_btn);
+        mToMapBtn.setOnClickListener(this);
 
 
 
@@ -35,16 +34,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()){
 
-            case R.id.home_button_go_to_map:
-                Intent toMapIntent = new Intent(this, MainActivity.class);
-                startActivity(toMapIntent);
+            case R.id.home_to_map_btn:
+                Intent toMapActivityIntent = new Intent(this, MainActivity.class);
+                startActivity(toMapActivityIntent);
                 break;
-            //TODO: Implement logic to sign up
-            case R.id.home_button_sign_up:
-                Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+            case R.id.home_login_btn:
+                Intent toLoginActivityIntent = new Intent(this, LoginActivity.class);
+                startActivity(toLoginActivityIntent);
                 break;
 
-        }
+        }   
 
     }
 }

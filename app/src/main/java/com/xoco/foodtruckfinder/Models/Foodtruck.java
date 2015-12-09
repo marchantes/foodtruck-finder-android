@@ -31,7 +31,15 @@ public class FoodTruck {
         }
     }
 
+    //TODO improve constructor
+    public FoodTruck(String name, String foodType, int image) {
+        this.name = name;
+        this.foodType = foodType;
+        this.image = image;
+    }
 
+    //TODO Not in API yet
 
+    public int image;
 
 }

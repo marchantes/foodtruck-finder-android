@@ -104,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.setOnInfoWindowClickListener(this);
 
         //TODO Hard coded map center, it should be changed to User's position
+
         LatLng myCenter  = new LatLng(19.434372, -99.1397591);
+
 
         //Add food truck to map and saves in map table
         for (FoodTruck foodTruck : mFoodTrucks) {
@@ -127,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCenter, 15));
+
 
     }
 

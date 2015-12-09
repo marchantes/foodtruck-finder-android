@@ -35,7 +35,7 @@
             />
 
         <Button
-            android:id="@+id/home_button_go_to_map"
+            android:id="@+id/home_to_map_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -45,14 +45,14 @@
             android:text="Go to Map" />
 
         <Button
-            android:id="@+id/home_button_sign_up"
+            android:id="@+id/home_login_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:alpha="0.8"
             android:background="@color/primary_dark"
             android:textColor="@android:color/white"
-            android:text="Sign up" />
+            android:text="Login" />
 
 
     </LinearLayout>

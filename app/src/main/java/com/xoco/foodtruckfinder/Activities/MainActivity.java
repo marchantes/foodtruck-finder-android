@@ -24,14 +24,16 @@ import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.fragments.FavoritesFragment;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
-import com.xoco.foodtruckfinder.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -102,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.setOnInfoWindowClickListener(this);
 
         //TODO Hard coded map center, it should be changed to User's position
+
         LatLng myCenter  = new LatLng(19.434372, -99.1397591);
+
 
         //Add food truck to map and saves in map table
         for (FoodTruck foodTruck : mFoodTrucks) {
@@ -126,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCenter, 15));
 
+
     }
 
     //Get food trucks list and save info in ArrayList<FoodTruck>
@@ -148,18 +153,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Handles info window clicking
     public void onInfoWindowClick(Marker marker){
 
+        //Get the food truck whose marker's info window was selected
         FoodTruck selectedFoodTruck = mHashMap.get(marker.getId());
+
+        //Post food truck object to EventBus
+        EventBus.getDefault().postSticky(selectedFoodTruck);
+
+        //Go to details
         Intent toDetailsIntent = new Intent(this, FoodtruckDetailsActivity.class);
-        Bundle foodTruckInfo = new Bundle();
-
-        //Inserts info in Bundle object before sending ID is very important for future requests
-        foodTruckInfo.putInt(Constants.ID, selectedFoodTruck.id);
-        foodTruckInfo.putString(Constants.NAME, selectedFoodTruck.name);
-        foodTruckInfo.putString(Constants.TYPE, selectedFoodTruck.foodType);
-        foodTruckInfo.putFloat(Constants.RATING, selectedFoodTruck.rating);
-        toDetailsIntent.putExtra(Constants.FOOD_TRUCK_INFO, foodTruckInfo);
-
-        //Go to a more detailed view of the food truck
         startActivity(toDetailsIntent);
 
     }

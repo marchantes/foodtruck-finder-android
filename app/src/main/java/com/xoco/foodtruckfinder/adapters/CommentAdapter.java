@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -40,7 +39,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 R.id.li_comment_username_tv,
                 R.id.li_comment_date_tv,
                 R.id.li_comment_comment_tv,
-                R.id.li_comment_image_iv,
+//                R.id.li_comment_image_iv,
                 R.id.li_comment_likes_tv,
                 R.id.li_comment_rb );
 
@@ -53,16 +52,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private TextView mUserName;
         private TextView mDate;
         private TextView mComment;
-        private ImageView mUserImage;
+//        private ImageView mUserImage;
         private TextView mLikes;
         private RatingBar mRating;
 
-        public CommentViewHolder(View itemView, int userName, int date, int comment, int userImage, int likes, int rating) {
+        public CommentViewHolder(View itemView, int userName, int date, int comment,
+//                                 int userImage,
+                                 int likes, int rating) {
             super(itemView);
             this.mUserName = (TextView) itemView.findViewById(userName);
             this.mDate = (TextView) itemView.findViewById(date);
             this.mComment = (TextView) itemView.findViewById(comment);
-            this.mUserImage = (ImageView) itemView.findViewById(userImage);
+//            this.mUserImage = (ImageView) itemView.findViewById(userImage);
             this.mLikes = (TextView) itemView.findViewById(likes);
             this.mRating = (RatingBar) itemView.findViewById(rating);
         }
@@ -79,9 +80,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.mComment.setText(comment);
         }
 
-        public void setUserImage(int userImage) {
-            this.mUserImage.setImageResource(userImage);
-        }
+//        public void setUserImage(int userImage) {
+//            this.mUserImage.setImageResource(userImage);
+//        }
 
         public void setLikes(int likes) {
             this.mLikes.setText(String.valueOf(likes));
@@ -103,7 +104,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.setDate(truckComment.date);
         holder.setLikes(truckComment.likes);
         holder.setUserName(truckComment.userName);
-        holder.setUserImage(truckComment.userImage);
+//        holder.setUserImage(truckComment.userImage);
         holder.setRating(truckComment.rating);
 
     }

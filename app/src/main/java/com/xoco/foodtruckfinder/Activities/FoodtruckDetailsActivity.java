@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -11,19 +13,24 @@ import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.CommentAdapter;
 import com.xoco.foodtruckfinder.models.Comment;
 import com.xoco.foodtruckfinder.models.FoodTruck;
+import com.xoco.foodtruckfinder.restful.ApiClient;
 
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class FoodtruckDetailsActivity extends AppCompatActivity {
+
+    private FoodtruckDetailsActivity self = this;
 
     private TextView tvName;
     private TextView tvType;
     private RatingBar rbRating;
+    private ImageView ivCover;
 
-    //Holds current food truck passed from MainActivity by EventBus
-    private FoodTruck foodTruck;
 
     //To display comments
     private RecyclerView recyclerView;
@@ -34,10 +41,12 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_foodtruck_details);
 
-        //TODO Put header info
-//        tvName = (TextView)findViewById(R.id.foodtruck_details_tv_name);
-//        tvType = (TextView)findViewById(R.id.foodtruck_details_tv_type);
-//        rbRating = (RatingBar) findViewById(R.id.foodtruck_details_rb);
+        //TODO Put header image
+//        ivCover = (ImageView) findViewById(R.id.foodtruck_details_image);
+
+        tvName = (TextView)findViewById(R.id.foodtruck_details_name_tv);
+        tvType = (TextView)findViewById(R.id.foodtruck_details_type_tv);
+        rbRating = (RatingBar) findViewById(R.id.foodtruck_details_rating);
 
         setUpRecyclerView();
     }
@@ -61,14 +70,19 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
 
 
     //This codes runs when a food truck is received. UI changes must be done in the UI thread
-    public void onEventMainThread(FoodTruck foodTruckEvent) {
-        foodTruck = foodTruckEvent;
+    public void onEventMainThread(FoodTruck foodTruck) {
 
+        //Just to check which food truck was selected
+        Log.d("DetailActivity", "Food truck ID: "+ String.valueOf(foodTruck.id));
+
+        //Set header
         tvName.setText(foodTruck.name);
         tvType.setText(foodTruck.foodType);
         rbRating.setRating(foodTruck.rating);
 
-        //TODO Implement server request here
+        //Get info from server
+        getComments(foodTruck.id);
+
     }
 
     private void setUpRecyclerView() {
@@ -77,35 +91,26 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        CommentAdapter commentAdapter = new CommentAdapter(this, getComments());
-        recyclerView.setAdapter(commentAdapter);
 
     }
 
-    private ArrayList<Comment> getComments(){
+    private void getComments(int foodTruckId){
 
-        ArrayList<Comment> comments = new ArrayList<>();
+        //Get comments from server
+        ApiClient.getService().getComments(foodTruckId, new Callback<ArrayList<Comment>>() {
+            @Override
+            public void success(ArrayList<Comment> comments, Response response) {
+                CommentAdapter commentAdapter = new CommentAdapter(self, comments);
+                recyclerView.setAdapter(commentAdapter);
+            }
 
-        String comment1 = "Súper a gusto, la comida y frappes ricos y a muy buen precio";
-        String comment2 = "Excelente ambientación; una terraza por encima de las copas de los árboles; lindo café para crepas y baguette. Excelente opción de verdad a un precio muy muy accesible";
-        String comment3 = "Muy recomendable y economico, lo chistoso es la mezla y variedad de hipsters y mirreyes en un lugar ";
-        String comment4 = "Pésimo servicio, pésimo el desayuno y además carísimo, el pan de dulce insípido y no hay variedad. Para mi gusto no lo recomiendo y no regresare.";
-        String date = "2-Dec-2015";
-        int likes = 10;
-        float rating = 1;
-
-        for(int i=0; i<15; i++) {
-            comments.add(new Comment("Juan Perez", comment1, date, likes, rating, R.drawable.bill_gates));
-            comments.add(new Comment("Emma Perez", comment2, date, likes, rating, R.drawable.emma_watson));
-            comments.add(new Comment("Juan Perez", comment3, date, likes, rating, R.drawable.bill_gates));
-            comments.add(new Comment("Emma Perez", comment4, date, likes, rating, R.drawable.emma_watson));
-            likes++;
-            rating += 0.1;
-        }
-
-        return comments;
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("DetailsActivity", "Retrofit Error");
+                Log.d("DetailsActivity", error.toString());
+            }
+        });
 
     }
-
 
 }

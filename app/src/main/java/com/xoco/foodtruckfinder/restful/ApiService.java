@@ -1,5 +1,6 @@
 package com.xoco.foodtruckfinder.restful;
 
+import com.xoco.foodtruckfinder.models.Comment;
 import com.xoco.foodtruckfinder.models.Favorite;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.utils.Constants;
@@ -24,7 +25,7 @@ public interface ApiService {
     @GET(Constants.API_FOOD_TRUCK)
     void getFoodTruck(@Path("pk") int id, Callback<FoodTruck> response);
 
-//    @GET(Constants.API_USER_FAVORITES)
-//    FoodTruck getFoodTruck(@Path("pk") int id);
+    @GET(Constants.API_FOOD_TRUCK_COMMENTS)
+    void getComments(@Path("pk") int id, Callback<ArrayList<Comment>> response);
 
 }

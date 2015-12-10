@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Add food truck to map and saves in map table
         for (FoodTruck foodTruck : mFoodTrucks) {
 
-            Log.d("Custom:MainActivity", foodTruck.name);
-            Log.d("Custom:MainActivity", foodTruck.location.toString());
+            Log.d("MainActivity", foodTruck.name);
+            Log.d("MainActivity", foodTruck.location.toString());
 
             currentMarkerId = googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(foodTruck.location.lat, foodTruck.location.lng))
@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.fast_food_24))
             ).getId();
 
-            Log.d("Custom:MainActivity",currentMarkerId);
-            Log.d("Custom:MainActivity",foodTruck.name);
+            Log.d("MainActivity",currentMarkerId);
+            Log.d("MainActivity",foodTruck.name);
 
             mHashMap.put(currentMarkerId, foodTruck);
 
@@ -138,14 +138,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
             @Override
             public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
-                Log.d("Custom:MainActivity", "Request was successful");
+                Log.d("MainActivity", "Request was successful");
                 mFoodTrucks = foodTrucks;
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("Custom:MainActivity", "Retrofit Error");
-                Log.d("Custom:MainActivity", error.toString());
+                Log.d("MainActivity", "Retrofit Error");
+                Log.d("MainActivity", error.toString());
             }
         });
     }
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 displayMapFragment();
                 break;
             case R.id.item_menu_favs:
-                Toast.makeText(this, "Favorites pressed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Favorite pressed", Toast.LENGTH_SHORT).show();
                 fragment = new FavoritesFragment();
                 fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
                 break;

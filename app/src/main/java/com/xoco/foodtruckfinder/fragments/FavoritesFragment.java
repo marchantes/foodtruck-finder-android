@@ -4,15 +4,22 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.FoodTruckAdapter;
+import com.xoco.foodtruckfinder.models.Favorite;
 import com.xoco.foodtruckfinder.models.FoodTruck;
+import com.xoco.foodtruckfinder.restful.ApiClient;
 
 import java.util.ArrayList;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class FavoritesFragment extends android.support.v4.app.Fragment {
@@ -21,8 +28,8 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
     //To display comments
     private RecyclerView recyclerView;
 
-    //Holds Favorites
-    private ArrayList<FoodTruck> foodTrucks = new ArrayList<FoodTruck>();
+    //Holds Favorite
+    private final ArrayList<FoodTruck> foodTruckFavorites = new ArrayList<FoodTruck>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,17 +72,43 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
     }
 
     private ArrayList<FoodTruck> getFavorites(){
-        ArrayList<FoodTruck> favorites = new ArrayList<>();
 
-        for(int i=0; i<12; i++){
+        ApiClient.getService().getUserFavorites(1, new Callback<ArrayList<Favorite>>() {
 
-            favorites.add(new FoodTruck("Mex "+ String.valueOf(i), "Mexican", R.drawable.bus_24));
-            favorites.add(new FoodTruck("Italian "+ String.valueOf(i), "Italian", R.drawable.bus_24));
-            favorites.add(new FoodTruck("French "+ String.valueOf(i), "French", R.drawable.bus_24));
+            @Override
+            public void success(ArrayList<Favorite> favorites, Response response) {
+                for (final Favorite favorite : favorites) {
 
-        }
 
-        return favorites;
+                    //Sync
+//                    foodTruckFavorites.add(ApiClient.getService().getFoodTruck(favorite.foodTruckId));
+
+                    //Async
+                    ApiClient.getService().getFoodTruck(favorite.foodTruckId, new Callback<FoodTruck>() {
+                        @Override
+                        public void success(FoodTruck foodTruck, Response response) {
+                            foodTruckFavorites.add(foodTruck);
+                        }
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.d("FavoritesFragment", "Retrofit Error Inside Second Loop");
+                        }
+                    });
+
+
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("FavoritesFragment", "Retrofit Error");
+                Log.d("FavoritesFragment", error.toString());
+            }
+        });
+
+        return foodTruckFavorites;
     }
+
 
 }

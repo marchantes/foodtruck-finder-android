@@ -10,4 +10,5 @@ public class Constants {
     public static final String API_ALL_FOODTRUCKS = "/api/v1/foodtrucks/";
     public static final String API_USER_FAVORITES = "/api/v1/users/{pk}/favs/";
     public static final String API_FOOD_TRUCK = "/api/v1/foodtrucks/{pk}/";
+    public static final String API_FOOD_TRUCK_COMMENTS = "/api/v1/foodtrucks/{pk}/comments/";
 }

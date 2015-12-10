@@ -71,6 +71,9 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
 
     }
 
+    //TODO Important: Ask API Team to refactor their code to receive a list of foodtrucks
+    //TODO Important: Instead of a list of IDs, this will prevent to make nested server requests
+
     private ArrayList<FoodTruck> getFavorites(){
 
         ApiClient.getService().getUserFavorites(1, new Callback<ArrayList<Favorite>>() {

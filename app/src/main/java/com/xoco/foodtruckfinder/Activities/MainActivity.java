@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        // ******************   THIS IS GRAND MERGER
+
+
         //Put map in the screen
         displayMapFragment();
 

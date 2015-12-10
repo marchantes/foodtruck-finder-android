@@ -22,10 +22,11 @@ public interface ApiService {
     @GET(Constants.API_USER_FAVORITES)
     void getUserFavorites(@Path("pk") int id, Callback<ArrayList<Favorite>> response);
 
+    @GET(Constants.API_FOOD_TRUCK_COMMENTS)
+    void getComments(@Path("pk") int id, Callback<ArrayList<Comment>> response);
+
     @GET(Constants.API_FOOD_TRUCK)
     void getFoodTruck(@Path("pk") int id, Callback<FoodTruck> response);
 
-    @GET(Constants.API_FOOD_TRUCK_COMMENTS)
-    void getComments(@Path("pk") int id, Callback<ArrayList<Comment>> response);
 
 }

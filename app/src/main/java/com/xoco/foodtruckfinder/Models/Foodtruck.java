@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by uliseschino on 11/26/15.
  */
-public class FoodTruck {
+public class Foodtruck {
 
     public int id;
 
@@ -32,7 +32,7 @@ public class FoodTruck {
     }
 
     //TODO improve constructor
-    public FoodTruck(String name, String foodType, int image) {
+    public Foodtruck(String name, String foodType, int image) {
         this.name = name;
         this.foodType = foodType;
         this.image = image;

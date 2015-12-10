@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.fragments.FavoritesFragment;
-import com.xoco.foodtruckfinder.models.FoodTruck;
+import com.xoco.foodtruckfinder.models.Foodtruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 
 import java.util.ArrayList;
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //Saves food trucks info from server
-    private ArrayList<FoodTruck> mFoodTrucks = new ArrayList<FoodTruck>();
+    private ArrayList<Foodtruck> mFoodTrucks = new ArrayList<Foodtruck>();
 
     //Maps FoodTruck Object with Google Map Pins by Marker ID, a String
-    private HashMap<String, FoodTruck> mHashMap = new HashMap<String, FoodTruck>();
+    private HashMap<String, Foodtruck> mHashMap = new HashMap<String, Foodtruck>();
 
     //To save current object in case "this" reserved word is used inside nested functions or callbacks
     private MainActivity self = this;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //Add food truck to map and saves in map table
-        for (FoodTruck foodTruck : mFoodTrucks) {
+        for (Foodtruck foodTruck : mFoodTrucks) {
 
             Log.d("MainActivity", foodTruck.name);
             Log.d("MainActivity", foodTruck.location.toString());
@@ -135,10 +135,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Get food trucks list and save info in ArrayList<FoodTruck>
     private void getFoodTrucksLocation() {
-        ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<FoodTruck>>() {
+        ApiClient.getService().getAllFoodTrucks(new Callback<ArrayList<Foodtruck>>() {
             @Override
-            public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
+            public void success(ArrayList<Foodtruck> foodTrucks, Response response) {
                 Log.d("MainActivity", "Request was successful");
+
                 mFoodTrucks = foodTrucks;
             }
 
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onInfoWindowClick(Marker marker){
 
         //Get the food truck whose marker's info window was selected
-        FoodTruck selectedFoodTruck = mHashMap.get(marker.getId());
+        Foodtruck selectedFoodTruck = mHashMap.get(marker.getId());
 
         //Post food truck object to EventBus
         EventBus.getDefault().postSticky(selectedFoodTruck);

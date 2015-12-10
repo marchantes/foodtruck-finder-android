@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xoco.foodtruckfinder.R;
-import com.xoco.foodtruckfinder.models.FoodTruck;
+import com.xoco.foodtruckfinder.models.Foodtruck;
 
 import java.util.ArrayList;
 
@@ -19,10 +19,10 @@ import java.util.ArrayList;
 public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.FoodTruckViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private ArrayList<FoodTruck> favorites;
+    private ArrayList<Foodtruck> favorites;
 
     //Adapter constructor receives context and the list
-    public FoodTruckAdapter(Context context, ArrayList<FoodTruck> foodTrucks) {
+    public FoodTruckAdapter(Context context, ArrayList<Foodtruck> foodTrucks) {
         layoutInflater = LayoutInflater.from(context);
         this.favorites = foodTrucks;
 
@@ -76,7 +76,7 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
     @Override
     public void onBindViewHolder(FoodTruckAdapter.FoodTruckViewHolder holder, int position) {
 
-        FoodTruck foodTruck = favorites.get(position);
+        Foodtruck foodTruck = favorites.get(position);
 
         holder.setName(foodTruck.name);
         holder.setType(foodTruck.foodType);

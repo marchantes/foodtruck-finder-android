@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.FoodTruckAdapter;
+//import com.xoco.foodtruckfinder.Models.Favorite;
+//import com.xoco.foodtruckfinder.Models.Foodtruck;
 import com.xoco.foodtruckfinder.models.Favorite;
-import com.xoco.foodtruckfinder.models.FoodTruck;
+import com.xoco.foodtruckfinder.models.Foodtruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
 
     //Holds Favorite
-    private final ArrayList<FoodTruck> foodTruckFavorites = new ArrayList<FoodTruck>();
+    private final ArrayList<com.xoco.foodtruckfinder.models.Foodtruck> foodTruckFavorites = new ArrayList<com.xoco.foodtruckfinder.models.Foodtruck>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,27 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
 
     }
 
-    private ArrayList<FoodTruck> getFavorites(){
+    private ArrayList<com.xoco.foodtruckfinder.models.Foodtruck> getFavorites(){
+
+
+
+
+        ArrayList<Foodtruck> favorites = new ArrayList<>();
+
+        for(int i=0; i<12; i++){
+
+            favorites.add(new Foodtruck("Mex "+ String.valueOf(i), "Mexican", R.drawable.bus_24));
+            favorites.add(new Foodtruck("Italian "+ String.valueOf(i), "Italian", R.drawable.bus_24));
+            favorites.add(new Foodtruck("French "+ String.valueOf(i), "French", R.drawable.bus_24));
+
+        }
+
+        return favorites;
+
+
+
+
+        /*
 
         ApiClient.getService().getUserFavorites(1, new Callback<ArrayList<Favorite>>() {
 
@@ -84,9 +106,9 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
 //                    foodTruckFavorites.add(ApiClient.getService().getFoodTruck(favorite.foodTruckId));
 
                     //Async
-                    ApiClient.getService().getFoodTruck(favorite.foodTruckId, new Callback<FoodTruck>() {
+                    ApiClient.getService().getFoodTruck(favorite.foodTruckId, new Callback<Foodtruck>() {
                         @Override
-                        public void success(FoodTruck foodTruck, Response response) {
+                        public void success(Foodtruck foodTruck, Response response) {
                             foodTruckFavorites.add(foodTruck);
                         }
                         @Override
@@ -108,6 +130,8 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
         });
 
         return foodTruckFavorites;
+
+        */
     }
 
 

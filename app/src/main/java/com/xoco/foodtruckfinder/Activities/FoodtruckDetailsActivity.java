@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.CommentAdapter;
 import com.xoco.foodtruckfinder.models.Comment;
-import com.xoco.foodtruckfinder.models.FoodTruck;
+import com.xoco.foodtruckfinder.models.Foodtruck;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
     private RatingBar rbRating;
 
     //Holds current food truck passed from MainActivity by EventBus
-    private FoodTruck foodTruck;
+    private Foodtruck foodTruck;
 
     //To display comments
     private RecyclerView recyclerView;
@@ -61,7 +61,7 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
 
 
     //This codes runs when a food truck is received. UI changes must be done in the UI thread
-    public void onEventMainThread(FoodTruck foodTruckEvent) {
+    public void onEventMainThread(Foodtruck foodTruckEvent) {
         foodTruck = foodTruckEvent;
 
         tvName.setText(foodTruck.name);

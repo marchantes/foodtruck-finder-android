@@ -8,7 +8,11 @@ import com.xoco.foodtruckfinder.utils.Constants;
 import java.util.ArrayList;
 
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
@@ -25,8 +29,9 @@ public interface ApiService {
     @GET(Constants.API_FOOD_TRUCK_COMMENTS)
     void getComments(@Path("pk") int id, Callback<ArrayList<Comment>> response);
 
-    @GET(Constants.API_FOOD_TRUCK)
-    void getFoodTruck(@Path("pk") int id, Callback<FoodTruck> response);
+    @FormUrlEncoded
+    @POST(Constants.API_FOOD_TRUCK_COMMENTS)
+    void postComment(@Path("pk") int id, @Field("comment")String comment, @Header("Authorization") String authToken, Callback<Comment> response);
 
 
 }

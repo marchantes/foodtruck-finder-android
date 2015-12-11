@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.CommentAdapter;
+import com.xoco.foodtruckfinder.fragments.CommentDialogFragment;
 import com.xoco.foodtruckfinder.models.Comment;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
@@ -22,15 +25,17 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class FoodtruckDetailsActivity extends AppCompatActivity {
+public class FoodtruckDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //To handlet this Activity
     private FoodtruckDetailsActivity self = this;
+    private FoodTruck currentFoodTruck;
 
     private TextView tvName;
     private TextView tvType;
     private RatingBar rbRating;
+    private Button postCommentBtn;
     private ImageView ivCover;
-
 
     //To display comments
     private RecyclerView recyclerView;
@@ -47,6 +52,9 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
         tvName = (TextView)findViewById(R.id.foodtruck_details_name_tv);
         tvType = (TextView)findViewById(R.id.foodtruck_details_type_tv);
         rbRating = (RatingBar) findViewById(R.id.foodtruck_details_rating);
+        postCommentBtn = (Button) findViewById(R.id.foodtruck_details_comment_btn);
+
+        postCommentBtn.setOnClickListener(this);
 
         setUpRecyclerView();
     }
@@ -71,6 +79,8 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
 
     //This codes runs when a food truck is received. UI changes must be done in the UI thread
     public void onEventMainThread(FoodTruck foodTruck) {
+
+        self.currentFoodTruck = foodTruck;
 
         //Just to check which food truck was selected
         Log.d("DetailActivity", "Food truck ID: "+ String.valueOf(foodTruck.id));
@@ -112,5 +122,23 @@ public class FoodtruckDetailsActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.foodtruck_details_comment_btn:
+                CommentDialogFragment commentDialogFragment = new CommentDialogFragment();
+                commentDialogFragment.show(getSupportFragmentManager(), "Post Comment");
+                Log.d("DetailsActivity", "Inside post button");
+                break;
+        }
+
+    }
+
+    public FoodTruck getCurrentFoodTruck() {
+        return currentFoodTruck;
+    }
+
 
 }

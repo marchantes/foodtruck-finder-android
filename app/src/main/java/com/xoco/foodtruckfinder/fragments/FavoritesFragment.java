@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.FoodTruckAdapter;
-import com.xoco.foodtruckfinder.models.Favorite;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 
@@ -63,49 +62,6 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.favorites_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-    }
-
-    //TODO Important: Ask API Team to refactor their code to receive a list of foodtrucks
-    //TODO Important: Instead of a list of IDs, this will prevent to make nested server requests
-
-    void getFavorites(int userId){
-
-        //Holds favorites
-        final ArrayList<FoodTruck> foodTruckFavorites = new ArrayList<>();
-
-        ApiClient.getService().getUserFavorites(userId, new Callback<ArrayList<Favorite>>() {
-
-            @Override
-            public void success(ArrayList<Favorite> favorites, Response response) {
-                for (final Favorite favorite : favorites) {
-
-                    FoodTruckAdapter foodTruckAdapter = new FoodTruckAdapter(getActivity(), foodTruckFavorites);
-                    recyclerView.setAdapter(foodTruckAdapter);
-
-                    //Async
-                    ApiClient.getService().getFoodTruck(favorite.foodTruckId, new Callback<FoodTruck>() {
-                        @Override
-                        public void success(FoodTruck foodTruck, Response response) {
-                            foodTruckFavorites.add(foodTruck);
-                        }
-                        @Override
-                        public void failure(RetrofitError error) {
-                            Log.d("FavoritesFragment", "Retrofit Error Inside Second Loop");
-                            Log.d("FavoritesFragment", error.toString());
-                        }
-                    });
-
-                }
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("FavoritesFragment", "Retrofit Error");
-                Log.d("FavoritesFragment", error.toString());
-            }
-        });
 
     }
 

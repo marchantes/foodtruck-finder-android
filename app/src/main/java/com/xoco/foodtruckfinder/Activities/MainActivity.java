@@ -1,6 +1,7 @@
 package com.xoco.foodtruckfinder.activities;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -93,19 +95,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fragmentManager.beginTransaction().replace(R.id.main_content_fragment, mapFragment).commit();
     }
 
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
 
         String currentMarkerId;
 
         //Get map and sets location service
         googleMap.setMyLocationEnabled(true);
+        Location location = googleMap.getMyLocation();
 
         //Set on information windows listener
         googleMap.setOnInfoWindowClickListener(this);
-
-        //TODO Hard coded map center, it should be changed to User's position
-
-        LatLng myCenter  = new LatLng(19.434372, -99.1397591);
 
 
         //Add food truck to map and saves in map table
@@ -128,8 +127,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCenter, 15));
-
+        //Moves camera
+        googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+                googleMap.moveCamera(center);
+                googleMap.animateCamera(zoom);
+            }
+        });
 
     }
 
@@ -174,11 +181,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         switch (menuItem.getItemId()) {
             case R.id.item_menu_map:
-                Toast.makeText(this, "Map pressed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Going to Maps", Toast.LENGTH_SHORT).show();
                 displayMapFragment();
                 break;
             case R.id.item_menu_favs:
-                Toast.makeText(this, "Favorite pressed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Showing Favorites", Toast.LENGTH_SHORT).show();
                 fragment = new FavoritesFragment();
                 fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
                 break;

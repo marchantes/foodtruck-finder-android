@@ -52,6 +52,13 @@
 
 
     </android.support.design.widget.AppBarLayout>
+    
+    <Button
+        android:id="@+id/foodtruck_details_comment_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post Comment"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/foodtruck_details_comments"

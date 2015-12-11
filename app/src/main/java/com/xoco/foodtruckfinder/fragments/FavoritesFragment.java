@@ -4,13 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.adapters.FoodTruckAdapter;
+import com.xoco.foodtruckfinder.models.Favorite;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 
@@ -43,8 +43,8 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
-//        getFavorites(1);
-        getAllFoodTrucks();
+        getFavorites(1);
+//        getAllFoodTrucks();
     }
 
     @Override
@@ -65,22 +65,24 @@ public class FavoritesFragment extends android.support.v4.app.Fragment {
 
     }
 
-    void getAllFoodTrucks(){
+    void getFavorites(int userId){
 
-        ApiClient.getService().getAllFoodTrucks( new Callback<ArrayList<FoodTruck>>() {
+        final ArrayList<FoodTruck> foodTrucks = new ArrayList<>();
 
+        ApiClient.getService().getUserFavorites(userId, new Callback<ArrayList<Favorite>>() {
             @Override
-            public void success(ArrayList<FoodTruck> foodTrucks, Response response) {
+            public void success(ArrayList<Favorite> favorites, Response response) {
+                for(Favorite favorite : favorites){
+                    foodTrucks.add(favorite.foodTruck);
+                }
 
                 FoodTruckAdapter foodTruckAdapter = new FoodTruckAdapter(getActivity(), foodTrucks);
                 recyclerView.setAdapter(foodTruckAdapter);
-
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("FavoritesFragment", "Retrofit Error");
-                Log.d("FavoritesFragment", error.toString());
+
             }
         });
 

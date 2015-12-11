@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Favorite {
 
-    //Only food truck id is needed for now
     @SerializedName("foodtruck")
-    public int foodTruckId;
+    public FoodTruck foodTruck;
 }

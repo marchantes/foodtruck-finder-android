@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Get map and sets location service
         googleMap.setMyLocationEnabled(true);
-        Location location = googleMap.getMyLocation();
 
         //Set on information windows listener
         googleMap.setOnInfoWindowClickListener(this);
@@ -127,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
+
+
         //Moves camera
         googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
@@ -135,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
                 googleMap.moveCamera(center);
                 googleMap.animateCamera(zoom);
+                //Just for the firs time;
+                googleMap.setOnMyLocationChangeListener(null);
             }
         });
 

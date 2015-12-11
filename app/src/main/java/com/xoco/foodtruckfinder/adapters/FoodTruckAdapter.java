@@ -1,7 +1,9 @@
 package com.xoco.foodtruckfinder.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xoco.foodtruckfinder.R;
+import com.xoco.foodtruckfinder.activities.FoodtruckDetailsActivity;
 import com.xoco.foodtruckfinder.models.FoodTruck;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by uliseschino on 12/8/15.
  */
 public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.FoodTruckViewHolder> {
 
+
+    private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<FoodTruck> favorites;
 
@@ -25,6 +32,7 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
     public FoodTruckAdapter(Context context, ArrayList<FoodTruck> foodTrucks) {
         layoutInflater = LayoutInflater.from(context);
         this.favorites = foodTrucks;
+        this.context = context;
 
     }
 
@@ -43,20 +51,25 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
         return viewHolder;
     }
 
-    public class FoodTruckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+    //The view holder implements on Click Listener
+    public class FoodTruckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mName;
         private TextView mType;
         private ImageView mImage;
-
+        private FoodTruck mFoodTruck;
 
         public FoodTruckViewHolder(View itemView, int name, int type, int image) {
             super(itemView);
+            itemView.setOnClickListener(this);
             this.mName = (TextView) itemView.findViewById(name);
             this.mType = (TextView) itemView.findViewById(type);
             this.mImage = (ImageView) itemView.findViewById(image);
         }
+
+
+        public void setFodTruck(FoodTruck foodTruck) { this.mFoodTruck = foodTruck; }
 
         public void setName(String name) {
             this.mName.setText(name);
@@ -70,10 +83,16 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
             this.mImage.setImageResource(image);
         }
 
+        @Override
         public void onClick(View view){
 
+            //Post food truck object to EventBus
+            EventBus.getDefault().postSticky(mFoodTruck);
 
-
+            Log.d("InsideViewHolder", String.valueOf(mFoodTruck.id));
+//            //Go to details
+            Intent toDetailsIntent = new Intent(context, FoodtruckDetailsActivity.class);
+            context.startActivity(toDetailsIntent);
         }
 
     }
@@ -84,6 +103,7 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
 
         FoodTruck foodTruck = favorites.get(position);
 
+        holder.setFodTruck(foodTruck);
         holder.setName(foodTruck.name);
         holder.setType(foodTruck.foodType);
         holder.setImage(foodTruck.image);

@@ -43,7 +43,7 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
         return viewHolder;
     }
 
-    public class FoodTruckViewHolder extends RecyclerView.ViewHolder  {
+    public class FoodTruckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
         private TextView mName;
@@ -68,6 +68,12 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
 
         public void setImage(int image) {
             this.mImage.setImageResource(image);
+        }
+
+        public void onClick(View view){
+
+
+
         }
 
     }

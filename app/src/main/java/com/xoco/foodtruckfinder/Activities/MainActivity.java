@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Food Truck Finder");
 
         //Navigation Drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .position(new LatLng(foodTruck.location.lat, foodTruck.location.lng))
                             .title(foodTruck.name)
                             .snippet(foodTruck.foodType)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.fast_food_24))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon))
             ).getId();
 
             Log.d("MainActivity",currentMarkerId);
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
                 googleMap.moveCamera(center);
                 googleMap.animateCamera(zoom);
-                //Just for the firs time;
+                //After loading map, disables it, it is only needed for the firs time;
                 googleMap.setOnMyLocationChangeListener(null);
             }
         });
@@ -178,22 +181,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Handles Drawer Menu navigation
     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-        Fragment fragment = null;
+        Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
 
         switch (menuItem.getItemId()) {
-            case R.id.item_menu_map:
+            case R.id.item_menu_drawer_map:
                 Toast.makeText(this, "Going to Maps", Toast.LENGTH_SHORT).show();
                 displayMapFragment();
+                toolbar.setTitle("Map and Location");
                 break;
-            case R.id.item_menu_favs:
+            case R.id.item_menu_drawer_favs:
                 Toast.makeText(this, "Showing Favorites", Toast.LENGTH_SHORT).show();
                 fragment = new FavoritesFragment();
                 fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
+                toolbar.setTitle("Favorites");
                 break;
-            case R.id.item_menu_settings:
+            case R.id.item_menu_drawer_settings:
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
+                toolbar.setTitle("Settings");
                 //TODO Finish settings functionality
                 break;
         }
@@ -207,6 +213,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    //Handles Toolbar Menu navigation
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+        switch (menuItem.getItemId()) {
+            case R.id.item_menu_toolbar_map:
+                Toast.makeText(this, "Going to Maps", Toast.LENGTH_SHORT).show();
+                displayMapFragment();
+                toolbar.setTitle("Map and Location");
+                break;
+            case R.id.item_menu_toolbar_favs:
+                Toast.makeText(this, "Showing Favorites", Toast.LENGTH_SHORT).show();
+                fragment = new FavoritesFragment();
+                fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
+                toolbar.setTitle("Favorites");
+                break;
+            case R.id.item_menu_toolbar_settings:
+                Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
+                //TODO Finish settings functionality
+                toolbar.setTitle("Settings");
+                break;
+            case R.id.item_menu_toolbar_search:
+                Toast.makeText(this, "Search pressed", Toast.LENGTH_SHORT).show();
+                //TODO Finish settings functionality
+                break;
+            case R.id.item_menu_toolbar_drawer:
+                Toast.makeText(this, "Showing Drawer Menu", Toast.LENGTH_SHORT).show();
+                drawerLayout.openDrawer(GravityCompat.START);
+        }
+
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+        return true;
     }
 
 

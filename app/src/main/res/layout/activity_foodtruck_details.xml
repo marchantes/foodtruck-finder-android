@@ -3,17 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- The ActionBar displayed at the top -->
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:layout_height="192dp">
+        android:layout_height="192dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/primary_dark"
             android:fitsSystemWindows="true"
+            app:contentScrim="@color/primary_dark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -21,20 +27,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/taco_background"
+                android:src="@color/primary_dark"
                 app:layout_collapseMode="parallax" />
 
             <TextView
                 android:id="@+id/foodtruck_details_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black" />
+
             <TextView
                 android:id="@+id/foodtruck_details_type_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"/>
-            
+                android:textColor="@android:color/black" />
+
             <RatingBar
                 android:id="@+id/foodtruck_details_rating"
                 android:layout_width="wrap_content"
@@ -45,24 +52,25 @@
                 android:id="@+id/Truck_self_toolbar2"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:theme="@style/ToolbarTheme" />
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
 
     </android.support.design.widget.AppBarLayout>
-    
-    <Button
-        android:id="@+id/foodtruck_details_comment_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post Comment"
-        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/foodtruck_details_comments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/comment_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add" />
+
 </android.support.design.widget.CoordinatorLayout>

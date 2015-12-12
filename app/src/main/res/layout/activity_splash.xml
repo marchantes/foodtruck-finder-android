@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@drawable/home_background"
     android:orientation="vertical">
 
     <ImageView
@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/holo_red_dark"
         android:textSize="35sp"
         android:textStyle="bold" />
 

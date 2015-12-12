@@ -8,6 +8,10 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
+
+
+
+
     <!-- This LinearLayout represents the main content of the screen  -->
     <LinearLayout
         android:id="@+id/main_content"
@@ -15,11 +19,37 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:contentDescription="@string/logo"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/toolbar_logo2"/>
+
+
+        </android.support.v7.widget.Toolbar>
+
         <!-- The ActionBar displayed at the top -->
+        <!--
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+            -->
 
         <FrameLayout
             android:id="@+id/main_content_fragment"
@@ -38,7 +68,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header_main"
-        app:menu="@menu/menu_main" />
+        app:menu="@menu/menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
 

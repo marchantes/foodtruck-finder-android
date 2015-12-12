@@ -8,4 +8,12 @@
     android:minHeight="?attr/actionBarSize"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     android:background="@color/primary_dark">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/logo"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/toolbar_logo2"/>
 </android.support.v7.widget.Toolbar>

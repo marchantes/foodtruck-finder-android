@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.login_register_btn:
-                Intent toLoginActivityIntent = new Intent(this, RegisterActivity.class);
-                startActivity(toLoginActivityIntent);
+//                Intent toLoginActivityIntent = new Intent(this, RegisterActivity.class);
+//                startActivity(toLoginActivityIntent);
                 break;
 
         }

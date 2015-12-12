@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +24,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xoco.foodtruckfinder.R;
 import com.xoco.foodtruckfinder.fragments.FavoritesFragment;
+import com.xoco.foodtruckfinder.fragments.LoginFragment;
+import com.xoco.foodtruckfinder.fragments.SettingsFragment;
+import com.xoco.foodtruckfinder.interfaces.OnSelectedListener;
 import com.xoco.foodtruckfinder.models.Foodtruck;
 import com.xoco.foodtruckfinder.restful.ApiClient;
 
@@ -35,7 +40,8 @@ import retrofit.client.Response;
 
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        OnSelectedListener, OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, NavigationView.OnNavigationItemSelectedListener {
 
 
     //Saves food trucks info from server
@@ -51,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout drawerLayout;
 
 
+    private String TAG = "   ********************** %=";
+
+
     private NavigationView navigationView;
     private Toolbar toolbar;
 
@@ -60,6 +69,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+
 
         // ******************   THIS IS GRAND MERGER
 
@@ -67,9 +84,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Put map in the screen
         displayMapFragment();
 
-        // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+
+
+
+
 
         //Navigation Drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void displayMapFragment() {
 
+
+
+
         //Pulls locations from server
         getFoodTrucksLocation();
 
@@ -90,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
 
         //Set up the onMapReady callback
-        mapFragment.getMapAsync(self);
+//        mapFragment.getMapAsync(self);
+        mapFragment.getMapAsync(this);
 
         //Replace fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -189,6 +212,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.item_menu_settings:
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
+
+                fragment = new SettingsFragment();
+                fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
+                //TODO Finish settings functionality
+                break;
+            /*
+            case R.id.item_menu_search:
+                Toast.makeText(this, "Search pressed", Toast.LENGTH_SHORT).show();
+                //TODO Finish settings functionality
+                break;
+                */
+            case R.id.item_menu_login:
+                Toast.makeText(this, "Login pressed", Toast.LENGTH_SHORT).show();
+                fragment = new LoginFragment();
+                fragmentManager.beginTransaction().replace(R.id.main_content_fragment, fragment).commit();
                 //TODO Finish settings functionality
                 break;
         }
@@ -205,4 +243,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+//                Toast.makeText(this, R.string.fuck_it2, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onOptionsItemSelected: ");
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

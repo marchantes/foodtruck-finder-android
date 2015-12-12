@@ -11,6 +11,8 @@ public class FoodTruck {
 
     public String name;
 
+    public int score;
+
     public float rating;
 
     @SerializedName("food_type")

@@ -24,7 +24,7 @@
             android:contentDescription="Image of Truck"
             android:paddingBottom="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_64" />
+            android:src="@drawable/icon_128" />
 
 
         <View

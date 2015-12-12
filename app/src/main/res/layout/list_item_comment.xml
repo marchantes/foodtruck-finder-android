@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="16dp"
+        android:paddingBottom="30dp"
         android:paddingTop="16dp">
 
 
@@ -24,6 +24,10 @@
             android:paddingBottom="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bill_gates" />
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="match_parent"/>
 
 
         <LinearLayout
@@ -55,19 +59,19 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/li_comment_likes_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Likes"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+            <!--<TextView-->
+                <!--android:id="@+id/li_comment_likes_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Likes"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:textSize="16sp" />-->
 
-            <RatingBar
-                android:id="@+id/li_comment_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+            <!--<RatingBar-->
+                <!--android:id="@+id/li_comment_rb"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal" />-->
 
         </LinearLayout>
 

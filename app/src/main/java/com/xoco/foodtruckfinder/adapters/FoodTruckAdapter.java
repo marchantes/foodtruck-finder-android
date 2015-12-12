@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xoco.foodtruckfinder.R;
@@ -45,8 +44,9 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
         FoodTruckViewHolder viewHolder = new FoodTruckViewHolder(
                 view,
                 R.id.li_food_truck_name,
-                R.id.li_food_truck_type,
-                R.id.li_food_truck_image);
+                R.id.li_food_truck_type
+//                ,R.id.li_food_truck_image
+        );
 
         return viewHolder;
     }
@@ -57,15 +57,17 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
 
         private TextView mName;
         private TextView mType;
-        private ImageView mImage;
+//        private ImageView mImage;
         private FoodTruck mFoodTruck;
 
-        public FoodTruckViewHolder(View itemView, int name, int type, int image) {
+        public FoodTruckViewHolder(View itemView, int name, int type
+//                , int image
+        ) {
             super(itemView);
             itemView.setOnClickListener(this);
             this.mName = (TextView) itemView.findViewById(name);
             this.mType = (TextView) itemView.findViewById(type);
-            this.mImage = (ImageView) itemView.findViewById(image);
+//            this.mImage = (ImageView) itemView.findViewById(image);
         }
 
 
@@ -79,9 +81,9 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
             this.mType.setText(type);
         }
 
-        public void setImage(int image) {
-            this.mImage.setImageResource(image);
-        }
+//        public void setImage(int image) {
+//           this.mImage.setImageResource(image);
+//        }
 
         @Override
         public void onClick(View view){
@@ -106,7 +108,7 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckAdapter.Food
         holder.setFodTruck(foodTruck);
         holder.setName(foodTruck.name);
         holder.setType(foodTruck.foodType);
-        holder.setImage(foodTruck.image);
+//        holder.setImage(foodTruck.image);
 
     }
 

@@ -38,10 +38,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 view,
                 R.id.li_comment_username_tv,
                 R.id.li_comment_date_tv,
-                R.id.li_comment_comment_tv,
+                R.id.li_comment_comment_tv
 //                R.id.li_comment_image_iv,
-                R.id.li_comment_likes_tv,
-                R.id.li_comment_rb );
+//                R.id.li_comment_likes_tv,
+//                R.id.li_comment_rb
+        );
 
         return viewHolder;
     }
@@ -56,16 +57,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private TextView mLikes;
         private RatingBar mRating;
 
-        public CommentViewHolder(View itemView, int userName, int date, int comment,
-//                                 int userImage,
-                                 int likes, int rating) {
+        public CommentViewHolder(View itemView, int userName, int date, int comment
+//                                 ,int userImage,
+//                                 int likes,
+//                                 int rating
+        ) {
             super(itemView);
             this.mUserName = (TextView) itemView.findViewById(userName);
             this.mDate = (TextView) itemView.findViewById(date);
             this.mComment = (TextView) itemView.findViewById(comment);
 //            this.mUserImage = (ImageView) itemView.findViewById(userImage);
-            this.mLikes = (TextView) itemView.findViewById(likes);
-            this.mRating = (RatingBar) itemView.findViewById(rating);
+//            this.mLikes = (TextView) itemView.findViewById(likes);
+//            this.mRating = (RatingBar) itemView.findViewById(rating);
         }
 
         public void setUserName(String userName) {
@@ -102,10 +105,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         holder.setComment(truckComment.comment);
         holder.setDate(truckComment.date);
-        holder.setLikes(truckComment.likes);
+//        holder.setLikes(truckComment.likes);
         holder.setUserName(truckComment.userName);
 //        holder.setUserImage(truckComment.userImage);
-        holder.setRating(truckComment.rating);
+//        holder.setRating(truckComment.rating);
 
     }
 

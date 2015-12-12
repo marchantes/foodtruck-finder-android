@@ -5,9 +5,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -35,7 +35,6 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
     private TextView tvName;
     private TextView tvType;
     private RatingBar rbRating;
-    private Button postCommentBtn;
     private ImageView ivCover;
 
     //To display comments
@@ -44,6 +43,9 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
 
     //Floating button
     private FloatingActionButton commentBtn;
+
+    //Toolbar
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,11 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
 
         commentBtn = (FloatingActionButton) findViewById(R.id.comment_fab);
         commentBtn.setOnClickListener(this);
+
+        //Toolbar setup
+        toolbar = (Toolbar) findViewById(R.id.comments_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Comments");
 
         setUpRecyclerView();
     }
@@ -93,7 +100,7 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
         //Set header
         tvName.setText(foodTruck.name);
         tvType.setText(foodTruck.foodType);
-        rbRating.setRating(foodTruck.rating);
+        rbRating.setRating(foodTruck.score);
 
         //Get info from server
         getComments(foodTruck.id);
@@ -141,9 +148,12 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
 
     }
 
-    public FoodTruck getCurrentFoodTruck() {
-        return currentFoodTruck;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+//        return true;
+//    }
 
 
 }

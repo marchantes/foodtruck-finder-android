@@ -55,6 +55,7 @@ public class CommentDialogFragment extends DialogFragment {
                             public void success(Comment comment, Response response) {
                                 Toast.makeText(context , "Comment posted successfully", Toast.LENGTH_SHORT).show();
                                 Log.d("DialogComment", "Success!");
+
                             }
 
                             @Override

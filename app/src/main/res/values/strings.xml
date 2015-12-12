@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Foodtruck Finder</string>
+    <string name="app_name">Food Truck Finder</string>
     <string name="settings">Settings</string>
     <string name="favorites">Favorites</string>
     <string name="map">Map</string>

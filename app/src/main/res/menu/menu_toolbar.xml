@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/item_menu_toolbar_drawer"
+        android:icon="@mipmap/ic_menu_white_24dp"
+        android:orderInCategory="50"
+        android:title="User"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_menu_toolbar_search"
+        android:icon="@mipmap/ic_action_search"
+        android:orderInCategory="300"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_menu_toolbar_map"
+            android:checked="true"
+            android:icon="@mipmap/ic_action_web_site"
+            android:title="@string/map" />
+
+        <item
+            android:id="@+id/item_menu_toolbar_favs"
+            android:icon="@mipmap/ic_action_important"
+            android:title="@string/favorites" />
+
+
+        <item
+            android:id="@+id/item_menu_toolbar_settings"
+            android:icon="@mipmap/ic_action_settings"
+            android:title="@string/settings" />
+
+    </group>
+</menu>

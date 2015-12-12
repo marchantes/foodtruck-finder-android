@@ -1,6 +1,7 @@
 package com.xoco.foodtruckfinder.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,10 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
     //To display comments
     private RecyclerView recyclerView;
 
+
+    //Floating button
+    private FloatingActionButton commentBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +57,9 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
         tvName = (TextView)findViewById(R.id.foodtruck_details_name_tv);
         tvType = (TextView)findViewById(R.id.foodtruck_details_type_tv);
         rbRating = (RatingBar) findViewById(R.id.foodtruck_details_rating);
-        postCommentBtn = (Button) findViewById(R.id.foodtruck_details_comment_btn);
 
-        postCommentBtn.setOnClickListener(this);
+        commentBtn = (FloatingActionButton) findViewById(R.id.comment_fab);
+        commentBtn.setOnClickListener(this);
 
         setUpRecyclerView();
     }
@@ -127,7 +132,7 @@ public class FoodtruckDetailsActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.foodtruck_details_comment_btn:
+            case R.id.comment_fab:
                 CommentDialogFragment commentDialogFragment = new CommentDialogFragment();
                 commentDialogFragment.show(getSupportFragmentManager(), "Post Comment");
                 Log.d("DetailsActivity", "Inside post button");

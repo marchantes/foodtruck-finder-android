@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/item_menu_map"
+            android:id="@+id/item_menu_drawer_map"
             android:icon="@mipmap/ic_action_web_site"
             android:checked="true"
             android:title="@string/map"/>
 
         <item
-            android:id="@+id/item_menu_favs"
+            android:id="@+id/item_menu_drawer_favs"
             android:icon="@mipmap/ic_action_important"
             android:title="@string/favorites"/>
 
 
         <item
-            android:id="@+id/item_menu_settings"
+            android:id="@+id/item_menu_drawer_settings"
             android:icon="@mipmap/ic_action_settings"
             android:title="@string/settings"/>
 

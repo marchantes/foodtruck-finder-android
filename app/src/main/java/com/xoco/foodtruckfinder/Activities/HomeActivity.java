@@ -26,7 +26,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mToMapBtn.setOnClickListener(this);
 
 
-
     }
 
     @Override
